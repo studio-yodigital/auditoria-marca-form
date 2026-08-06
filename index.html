@@ -1,0 +1,450 @@
+<div id="audit-intake-root"></div>
+<style>
+  #audit-intake-root {
+    --ink: #16262A;
+    --ink-soft: #4A5C60;
+    --paper: #FAF8F3;
+    --panel: #FFFFFF;
+    --teal: #1F4E5A;
+    --teal-deep: #12333C;
+    --gold: #B8842E;
+    --line: #E3DED2;
+    --danger: #A8452F;
+    font-family: Georgia, 'Times New Roman', serif;
+    color: var(--ink);
+    background: var(--paper);
+    min-height: 100%;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  #audit-intake-root * { box-sizing: border-box; }
+  .ai-wrap { max-width: 760px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  .ai-head { margin-bottom: 36px; }
+  .ai-eyebrow {
+    font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: 700;
+    margin: 0 0 10px;
+  }
+  .ai-title { font-size: 30px; line-height: 1.2; margin: 0 0 10px; color: var(--teal-deep); }
+  .ai-sub { font-family: 'Trebuchet MS', 'Segoe UI', sans-serif; font-size: 14.5px; color: var(--ink-soft); line-height: 1.55; margin: 0; max-width: 56ch; }
+
+  /* readiness gauge */
+  .ai-gauge {
+    display: flex; align-items: center; gap: 14px;
+    margin: 26px 0 6px; padding: 16px 18px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 3px;
+  }
+  .ai-gauge-track {
+    flex: 1; height: 6px; background: #EEE9DC; border-radius: 3px; overflow: hidden; position: relative;
+  }
+  .ai-gauge-fill {
+    height: 100%; background: linear-gradient(90deg, var(--teal), var(--gold));
+    width: 0%; transition: width 0.4s ease;
+  }
+  .ai-gauge-label {
+    font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+    font-size: 12px; color: var(--ink-soft); white-space: nowrap; min-width: 128px; text-align: right;
+  }
+  .ai-gauge-num { font-weight: 700; color: var(--teal-deep); font-size: 13px; }
+
+  .ai-section {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 26px 28px;
+    margin-bottom: 18px;
+  }
+  .ai-section-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 18px; }
+  .ai-num {
+    font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+    font-size: 12px; font-weight: 700; color: var(--teal);
+    border: 1px solid var(--teal); border-radius: 50%;
+    width: 22px; height: 22px; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .ai-section h2 { font-size: 18px; margin: 0; color: var(--teal-deep); }
+  .ai-section-note { font-family: 'Trebuchet MS', 'Segoe UI', sans-serif; font-size: 13px; color: var(--ink-soft); margin: -10px 0 18px 32px; line-height: 1.5; }
+
+  .ai-field { margin-bottom: 16px; }
+  .ai-field:last-child { margin-bottom: 0; }
+  .ai-label {
+    display: block; font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+    font-size: 12.5px; font-weight: 700; color: var(--ink); margin-bottom: 6px;
+    text-transform: uppercase; letter-spacing: 0.03em;
+  }
+  .ai-hint { font-family: 'Trebuchet MS', 'Segoe UI', sans-serif; font-size: 12px; color: var(--ink-soft); margin: 4px 0 0; }
+  .ai-input, .ai-textarea, .ai-select {
+    width: 100%; font-family: Georgia, serif; font-size: 15px; color: var(--ink);
+    border: 1px solid var(--line); border-radius: 2px; padding: 10px 12px;
+    background: #FFFEFC;
+  }
+  .ai-input:focus, .ai-textarea:focus, .ai-select:focus {
+    outline: 2px solid var(--teal); outline-offset: 1px; border-color: var(--teal);
+  }
+  .ai-textarea { resize: vertical; min-height: 64px; }
+  .ai-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 560px) { .ai-row { grid-template-columns: 1fr; } }
+
+  .ai-chip-group { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ai-chip {
+    font-family: 'Trebuchet MS', 'Segoe UI', sans-serif; font-size: 13px;
+    padding: 7px 13px; border: 1px solid var(--line); border-radius: 16px;
+    background: #FFFEFC; cursor: pointer; color: var(--ink-soft); user-select: none;
+    transition: all 0.15s ease;
+  }
+  .ai-chip.on { background: var(--teal); border-color: var(--teal); color: #fff; }
+  .ai-chip:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+  .ai-radio-row { display: flex; gap: 18px; font-family: 'Trebuchet MS', 'Segoe UI', sans-serif; font-size: 14px; }
+  .ai-radio-row label { display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--ink); }
+
+  .ai-comp-list { display: flex; flex-direction: column; gap: 8px; }
+  .ai-comp-row { display: flex; gap: 8px; }
+  .ai-comp-row .ai-input { flex: 1; }
+
+  .ai-footer { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 6px; }
+  .ai-save-note { font-family: 'Trebuchet MS', 'Segoe UI', sans-serif; font-size: 12px; color: var(--ink-soft); min-height: 16px; }
+  .ai-submit {
+    font-family: 'Trebuchet MS', 'Segoe UI', sans-serif; font-weight: 700; font-size: 14.5px;
+    background: var(--teal-deep); color: #fff; border: none; border-radius: 3px;
+    padding: 13px 26px; cursor: pointer; letter-spacing: 0.01em;
+    transition: background 0.15s ease;
+  }
+  .ai-submit:hover { background: var(--teal); }
+  .ai-submit:disabled { background: #B7BEC0; cursor: not-allowed; }
+
+  .ai-reset {
+    font-family: 'Trebuchet MS', 'Segoe UI', sans-serif; font-size: 12.5px; color: var(--ink-soft);
+    background: none; border: none; text-decoration: underline; cursor: pointer; padding: 0;
+  }
+</style>
+
+<script>
+(function() {
+  const root = document.getElementById('audit-intake-root');
+
+  // Pega aquí la URL de tu Google Apps Script Web App (ver instrucciones adjuntas).
+  // Ejemplo: 'https://script.google.com/macros/s/AKfycb.../exec'
+  const SHEET_WEBHOOK_URL = 'PEGA_AQUI_TU_URL_DE_APPS_SCRIPT';
+
+  const state = {
+    igLink: '', brandName: '',
+    trigger: '', triggerNote: '',
+    channels: [], competitors: ['', '', ''],
+    tone: '', voiceNote: '',
+    hasInsights: '', dataNote: '',
+    owner: '', deliverableFormat: ''
+  };
+
+  const STORAGE_KEY = 'brand-audit-intake-v1';
+
+  root.innerHTML = `
+    <div class="ai-wrap">
+      <div class="ai-head">
+        <p class="ai-eyebrow">Auditoría de Marca &middot; Formulario Complementario</p>
+        <h1 class="ai-title">Contexto que el link de Instagram no puede darnos</h1>
+        <p class="ai-sub">El agente lee automáticamente lo público del perfil. Esto completa lo que solo tú sabes: el objetivo, la voz intencionada, los competidores y qué tanto acceso hay a datos privados.</p>
+      </div>
+
+      <div class="ai-gauge">
+        <span class="ai-gauge-label">Preparación <span class="ai-gauge-num" id="ai-pct">0%</span></span>
+        <div class="ai-gauge-track"><div class="ai-gauge-fill" id="ai-fill"></div></div>
+      </div>
+
+      <div class="ai-section">
+        <div class="ai-section-head"><span class="ai-num">1</span><h2>Cuenta a auditar</h2></div>
+        <div class="ai-field">
+          <label class="ai-label" for="ai-ig">Link de Instagram</label>
+          <input class="ai-input" id="ai-ig" type="text" placeholder="https://instagram.com/tu_marca" />
+        </div>
+        <div class="ai-field">
+          <label class="ai-label" for="ai-brand">Nombre de la marca</label>
+          <input class="ai-input" id="ai-brand" type="text" placeholder="Ej. Estudio Aurora" />
+        </div>
+      </div>
+
+      <div class="ai-section">
+        <div class="ai-section-head"><span class="ai-num">2</span><h2>Objetivo de la auditoría</h2></div>
+        <p class="ai-section-note">Por qué se hace esta auditoría ahora — define qué tan a fondo debe ir el agente.</p>
+        <div class="ai-field">
+          <label class="ai-label" for="ai-trigger">Disparador</label>
+          <select class="ai-select" id="ai-trigger">
+            <option value="">Selecciona una opción</option>
+            <option value="Control rutinario">Control rutinario</option>
+            <option value="Caída de métricas">Caída de métricas / ventas</option>
+            <option value="Relanzamiento de marca">Preparación para relanzamiento</option>
+            <option value="Nuevo competidor">Entrada de un nuevo competidor</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+        <div class="ai-field">
+          <label class="ai-label" for="ai-trigger-note">Detalle breve (opcional)</label>
+          <textarea class="ai-textarea" id="ai-trigger-note" placeholder="Cualquier contexto adicional sobre el momento del negocio..."></textarea>
+        </div>
+      </div>
+
+      <div class="ai-section">
+        <div class="ai-section-head"><span class="ai-num">3</span><h2>Alcance</h2></div>
+        <div class="ai-field">
+          <label class="ai-label">Canales a incluir</label>
+          <div class="ai-chip-group" id="ai-channels">
+            ${['Instagram','LinkedIn','TikTok','Web','Email'].map(c => `<button type="button" class="ai-chip" data-channel="${c}">${c}</button>`).join('')}
+          </div>
+        </div>
+        <div class="ai-field">
+          <label class="ai-label">Competidores (3 a 5)</label>
+          <div class="ai-comp-list" id="ai-competitors"></div>
+          <p class="ai-hint">Handles o links de Instagram de los competidores directos.</p>
+        </div>
+      </div>
+
+      <div class="ai-section">
+        <div class="ai-section-head"><span class="ai-num">4</span><h2>Voz de marca intencionada</h2></div>
+        <p class="ai-section-note">Cómo *debería* sonar la marca — el agente la contrasta contra lo que detecte en el contenido real.</p>
+        <div class="ai-row">
+          <div class="ai-field">
+            <label class="ai-label" for="ai-tone">Tono</label>
+            <select class="ai-select" id="ai-tone">
+              <option value="">Selecciona</option>
+              <option value="Formal / corporativo">Formal / corporativo</option>
+              <option value="Cercano / conversacional">Cercano / conversacional</option>
+              <option value="Técnico / experto">Técnico / experto</option>
+              <option value="Divertido / irreverente">Divertido / irreverente</option>
+            </select>
+          </div>
+        </div>
+        <div class="ai-field">
+          <label class="ai-label" for="ai-voice-note">Notas de voz (opcional)</label>
+          <textarea class="ai-textarea" id="ai-voice-note" placeholder="Vocabulario a evitar, registro emocional deseado, ejemplos de bien/mal..."></textarea>
+        </div>
+      </div>
+
+      <div class="ai-section">
+        <div class="ai-section-head"><span class="ai-num">5</span><h2>Acceso a datos privados</h2></div>
+        <p class="ai-section-note">Alcance, guardados e impresiones solo los ve el dueño de la cuenta — sin esto, el entregable avanzado queda incompleto.</p>
+        <div class="ai-field">
+          <label class="ai-label">¿Tienes exports de Instagram Insights / Meta Business Suite?</label>
+          <div class="ai-radio-row">
+            <label><input type="radio" name="ai-insights" value="Sí"> Sí, los puedo pegar o adjuntar</label>
+            <label><input type="radio" name="ai-insights" value="No"> No, solo lo público</label>
+          </div>
+        </div>
+        <div class="ai-field">
+          <label class="ai-label" for="ai-data-note">Pega aquí datos clave (opcional)</label>
+          <textarea class="ai-textarea" id="ai-data-note" placeholder="Alcance del mes, impresiones, guardados, seguidores vs. no seguidores..."></textarea>
+        </div>
+      </div>
+
+      <div class="ai-section">
+        <div class="ai-section-head"><span class="ai-num">6</span><h2>Responsable y entrega</h2></div>
+        <div class="ai-row">
+          <div class="ai-field">
+            <label class="ai-label" for="ai-owner">Responsable de ejecutar el plan</label>
+            <input class="ai-input" id="ai-owner" type="text" placeholder="Nombre" />
+          </div>
+          <div class="ai-field">
+            <label class="ai-label" for="ai-format">Formato del entregable avanzado</label>
+            <select class="ai-select" id="ai-format">
+              <option value="">Selecciona</option>
+              <option value="Word">Word</option>
+              <option value="PDF">PDF</option>
+              <option value="Presentación">Presentación</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-footer">
+        <button type="button" class="ai-reset" id="ai-reset">Borrar y empezar de nuevo</button>
+        <span class="ai-save-note" id="ai-save-note"></span>
+        <button type="button" class="ai-submit" id="ai-submit">Enviar a la auditoría</button>
+      </div>
+    </div>
+  `;
+
+  // build competitor rows
+  const compList = root.querySelector('#ai-competitors');
+  function renderCompetitors() {
+    compList.innerHTML = state.competitors.map((val, i) => `
+      <div class="ai-comp-row">
+        <input class="ai-input" type="text" data-comp-idx="${i}" value="${val.replace(/"/g,'&quot;')}" placeholder="Competidor ${i+1}" />
+      </div>
+    `).join('');
+    compList.querySelectorAll('input[data-comp-idx]').forEach(inp => {
+      inp.addEventListener('input', e => {
+        state.competitors[+e.target.dataset.compIdx] = e.target.value;
+        updateGauge(); persist();
+      });
+    });
+  }
+  renderCompetitors();
+
+  // channel chips
+  root.querySelectorAll('#ai-channels .ai-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const c = chip.dataset.channel;
+      const idx = state.channels.indexOf(c);
+      if (idx >= 0) { state.channels.splice(idx, 1); chip.classList.remove('on'); }
+      else { state.channels.push(c); chip.classList.add('on'); }
+      updateGauge(); persist();
+    });
+  });
+
+  // bind simple fields
+  const bindings = [
+    ['ai-ig', 'igLink'], ['ai-brand', 'brandName'],
+    ['ai-trigger', 'trigger'], ['ai-trigger-note', 'triggerNote'],
+    ['ai-tone', 'tone'], ['ai-voice-note', 'voiceNote'],
+    ['ai-data-note', 'dataNote'], ['ai-owner', 'owner'], ['ai-format', 'deliverableFormat']
+  ];
+  bindings.forEach(([id, key]) => {
+    const el = root.querySelector('#' + id);
+    el.addEventListener('input', () => { state[key] = el.value; updateGauge(); persist(); });
+  });
+  root.querySelectorAll('input[name="ai-insights"]').forEach(r => {
+    r.addEventListener('change', e => { state.hasInsights = e.target.value; updateGauge(); persist(); });
+  });
+
+  function updateGauge() {
+    const checks = [
+      !!state.igLink, !!state.brandName, !!state.trigger,
+      state.channels.length > 0, state.competitors.filter(c => c.trim()).length >= 3,
+      !!state.tone, !!state.hasInsights, !!state.owner, !!state.deliverableFormat
+    ];
+    const pct = Math.round((checks.filter(Boolean).length / checks.length) * 100);
+    root.querySelector('#ai-fill').style.width = pct + '%';
+    root.querySelector('#ai-pct').textContent = pct + '%';
+  }
+
+  let saveTimer;
+  function persist() {
+    clearTimeout(saveTimer);
+    const note = root.querySelector('#ai-save-note');
+    saveTimer = setTimeout(async () => {
+      try {
+        await window.storage.set(STORAGE_KEY, JSON.stringify(state));
+        note.textContent = 'Guardado';
+        setTimeout(() => { if (note.textContent === 'Guardado') note.textContent = ''; }, 1500);
+      } catch (err) {
+        note.textContent = 'No se pudo guardar';
+      }
+    }, 400);
+  }
+
+  async function loadSaved() {
+    try {
+      const res = await window.storage.get(STORAGE_KEY);
+      if (res && res.value) {
+        const saved = JSON.parse(res.value);
+        Object.assign(state, saved);
+        root.querySelector('#ai-ig').value = state.igLink || '';
+        root.querySelector('#ai-brand').value = state.brandName || '';
+        root.querySelector('#ai-trigger').value = state.trigger || '';
+        root.querySelector('#ai-trigger-note').value = state.triggerNote || '';
+        root.querySelector('#ai-tone').value = state.tone || '';
+        root.querySelector('#ai-voice-note').value = state.voiceNote || '';
+        root.querySelector('#ai-data-note').value = state.dataNote || '';
+        root.querySelector('#ai-owner').value = state.owner || '';
+        root.querySelector('#ai-format').value = state.deliverableFormat || '';
+        (state.channels || []).forEach(c => {
+          const chip = root.querySelector(`.ai-chip[data-channel="${c}"]`);
+          if (chip) chip.classList.add('on');
+        });
+        if (state.competitors && state.competitors.length) renderCompetitors();
+        if (state.hasInsights) {
+          const r = root.querySelector(`input[name="ai-insights"][value="${state.hasInsights}"]`);
+          if (r) r.checked = true;
+        }
+      }
+    } catch (err) {
+      // no saved draft yet — fine
+    }
+    updateGauge();
+  }
+  loadSaved();
+
+  root.querySelector('#ai-reset').addEventListener('click', async () => {
+    if (!confirm('¿Borrar todo el formulario?')) return;
+    Object.assign(state, {
+      igLink:'', brandName:'', trigger:'', triggerNote:'', channels:[],
+      competitors:['','',''], tone:'', voiceNote:'', hasInsights:'', dataNote:'',
+      owner:'', deliverableFormat:''
+    });
+    try { await window.storage.delete(STORAGE_KEY); } catch(e) {}
+    location.reload();
+  });
+
+  async function submitToSheet() {
+    const payload = {
+      igLink: state.igLink, brandName: state.brandName,
+      trigger: state.trigger, triggerNote: state.triggerNote,
+      channels: state.channels.join(', '),
+      competitors: state.competitors.filter(c => c.trim()).join(', '),
+      tone: state.tone, voiceNote: state.voiceNote,
+      hasInsights: state.hasInsights, dataNote: state.dataNote,
+      owner: state.owner, deliverableFormat: state.deliverableFormat
+    };
+    if (!SHEET_WEBHOOK_URL || SHEET_WEBHOOK_URL === 'PEGA_AQUI_TU_URL_DE_APPS_SCRIPT') {
+      return { ok: false, reason: 'no-url' };
+    }
+    try {
+      await fetch(SHEET_WEBHOOK_URL, {
+        method: 'POST',
+        mode: 'no-cors', // Apps Script Web Apps no devuelven headers CORS legibles
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(payload).toString()
+      });
+      // con mode:'no-cors' no podemos leer la respuesta, así que asumimos éxito
+      // si fetch no lanzó error de red
+      return { ok: true };
+    } catch (err) {
+      return { ok: false, reason: 'network', error: err };
+    }
+  }
+
+  root.querySelector('#ai-submit').addEventListener('click', async () => {
+    const btn = root.querySelector('#ai-submit');
+    const note = root.querySelector('#ai-save-note');
+    btn.disabled = true;
+    note.textContent = 'Enviando...';
+
+    const result = await submitToSheet();
+
+    if (result.ok) {
+      note.textContent = 'Guardado en la hoja de cálculo ✓';
+    } else if (result.reason === 'no-url') {
+      note.textContent = 'Falta configurar la URL de Google Sheets (ver instrucciones)';
+    } else {
+      note.textContent = 'No se pudo guardar en la hoja — revisa la conexión';
+    }
+    btn.disabled = false;
+
+    // Si el formulario se abre dentro de una conversación de Claude, también
+    // enviamos el contexto al chat para arrancar la auditoría en el momento.
+    if (typeof sendPrompt === 'function') {
+      const lines = [
+        'Completé el formulario de la auditoría de marca. Aquí está el contexto:',
+        '',
+        `Link de Instagram: ${state.igLink || '(no indicado)'}`,
+        `Marca: ${state.brandName || '(no indicado)'}`,
+        `Disparador de la auditoría: ${state.trigger || '(no indicado)'}${state.triggerNote ? ' — ' + state.triggerNote : ''}`,
+        `Canales en alcance: ${state.channels.length ? state.channels.join(', ') : '(no indicado)'}`,
+        `Competidores: ${state.competitors.filter(c => c.trim()).join(', ') || '(no indicado)'}`,
+        `Voz intencionada: ${state.tone || '(no indicado)'}${state.voiceNote ? ' — ' + state.voiceNote : ''}`,
+        `¿Acceso a Instagram Insights?: ${state.hasInsights || '(no indicado)'}`,
+        state.dataNote ? `Datos pegados: ${state.dataNote}` : '',
+        `Responsable: ${state.owner || '(no indicado)'}`,
+        `Formato preferido del entregable avanzado: ${state.deliverableFormat || '(no indicado)'}`,
+        '',
+        'Por favor arranca la auditoría con esta información.'
+      ].filter(Boolean);
+      sendPrompt(lines.join('\\n'));
+    }
+  });
+})();
+</script>
