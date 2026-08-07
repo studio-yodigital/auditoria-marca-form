@@ -21,6 +21,9 @@
   .ai-wrap { max-width: 760px; margin: 0 auto; padding: 40px 24px 80px; }
 
   .ai-head { margin-bottom: 36px; }
+  .ai-brand-row { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .ai-logo { width: 44px; height: auto; flex-shrink: 0; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.15)); }
+  .ai-brand-name { font-family: 'Trebuchet MS', 'Segoe UI', sans-serif; font-weight: 700; font-size: 14px; color: var(--teal-deep); letter-spacing: 0.01em; }
   .ai-eyebrow {
     font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
     text-transform: uppercase;
@@ -146,33 +149,37 @@
   root.innerHTML = `
     <div class="ai-wrap">
       <div class="ai-head">
-        <p class="ai-eyebrow">Auditoría de Marca &middot; Formulario Complementario</p>
-        <h1 class="ai-title">Contexto que el link de Instagram no puede darnos</h1>
-        <p class="ai-sub">El agente lee automáticamente lo público del perfil. Esto completa lo que solo tú sabes: el objetivo, la voz intencionada, los competidores y qué tanto acceso hay a datos privados.</p>
+        <div class="ai-brand-row">
+          <img class="ai-logo" alt="Studio YoDigital" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADcAAAA4CAMAAABuU5ChAAAAwFBMVEUAAAAYFBnlnmRZMB2aXC9uSy2ja0ynZBbUnCu1iy3w11j9x5RmUkzOdUn5tzQoMEFqIhFvaQ3//x30zUr3uYX//2T89GTvsjORaCCsimT/qlW7uzRaNA1pYluVZRhvTBOKNCBQNyp1WkuqVVWTb1OihC6xkYjVt0b//6r///85IxqxlC+qqlXVqzZzRyp3Z2MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABlyn2CAAAAMHRSTlMA/v79/P39E/b7+P/8/wX/DwsCl/8CWVlZ/gMDUgqgXv+tmQNMdv6nAwGhlwOqlkDDyem/AAACrUlEQVR42u2W63LaMBCFJe0FW7apnUADIffm0qRN+/5v17OyzSVAYnf6JzM9ZMwM0add7R4tOPfZVeP19/C3Masv7fFyUaeAI8jb2xcPEdGv++FgXd+STyIhVudOBuXY3JFPHB7E3sDLIUf7XXbRkKf9id67yZHVzWrSqb4s11CPY8F0Ne00Pz+8xb34t6K75uDSEzc967S4uKM9zoucfd1oXaeJW2RZDjEzlTuRhFXwlDwLUIwxxFP3fRMw536pVYWITRpmRTELtHVWL7Fx66wn7iLrj2XxgFTYHlRRhKBtT75A3kfn5psTnrurrN8Qi5QNa8FZCG24xC3jJkuzyNxlvK6/bHMI2PrAMIkL93O7pCt33WcqvlQOG67Y4uLTTridTEuvKpACFCG8i09bpiznb1rZPPeZil+mXlAIFZGqpsKkT5DlnlsaZNrGK0syIdCS0b+gZalpJ2Q533fNueMc/1QqO2MTKGyDpkgKybF+PmA4fGSluaFSQRATBw3M6MOSQ2XhHg6Fs+5baW5Il8ktxEXohLZ4H8JhDJfFMe4p6aNWVQVuFnRmfbeQyWBHrqHZjehGH82bzAGt0y5i6eMPNNkdA5GpGlcF7jxjKoLPs2NZtheDxetS7XiecFSczUC07nrXYPuZohXKlGYL6oh0rQnvZdmW5orNn0J2B1EeBKvE5zDYu1O/RqaEu2uNSFDEQRHugMHefptcs10maS88zifkw+t7RdlqYgeCU2GS6J6bjzgswHBCVVgNYwoMg60+ntiYbiw2LQACq9iK4oZwE04TLN0mWDs/HfTNgnh5Ymx8oqQ0mJtkbSxKVhvPtdNpFOdT5xPnR3EGWpbw5jjOqiJp/oGbjuF6/eeOcE8DuUXGkpTmr2Svgzj8frTleZ71evhoSPxjnbjPqz+sLiO2yGYmrAAAAABJRU5ErkJggg==" />
+          <span class="ai-brand-name">STUDIO YODIGITAL</span>
+        </div>
+        <p class="ai-eyebrow">Auditoría de Marca &middot; 5 minutos, en serio</p>
+        <h1 class="ai-title">Tú conoces tu marca. Cuéntanosla.</h1>
+        <p class="ai-sub">Ya revisamos lo público de tu Instagram. Ahora nos faltas tú: tu objetivo, tu competencia y cómo quieres que suene tu marca. Sin esto, la auditoría se queda a medias — con esto, arrancamos hoy.</p>
       </div>
 
       <div class="ai-gauge">
-        <span class="ai-gauge-label">Preparación <span class="ai-gauge-num" id="ai-pct">0%</span></span>
+        <span class="ai-gauge-label">Tu progreso <span class="ai-gauge-num" id="ai-pct">0%</span></span>
         <div class="ai-gauge-track"><div class="ai-gauge-fill" id="ai-fill"></div></div>
       </div>
 
       <div class="ai-section">
-        <div class="ai-section-head"><span class="ai-num">1</span><h2>Cuenta a auditar</h2></div>
+        <div class="ai-section-head"><span class="ai-num">1</span><h2>Empecemos por ti</h2></div>
         <div class="ai-field">
-          <label class="ai-label" for="ai-ig">Link de Instagram</label>
+          <label class="ai-label" for="ai-ig">Tu Instagram</label>
           <input class="ai-input" id="ai-ig" type="text" placeholder="https://instagram.com/tu_marca" />
         </div>
         <div class="ai-field">
-          <label class="ai-label" for="ai-brand">Nombre de la marca</label>
+          <label class="ai-label" for="ai-brand">¿Cómo se llama tu marca?</label>
           <input class="ai-input" id="ai-brand" type="text" placeholder="Ej. Estudio Aurora" />
         </div>
       </div>
 
       <div class="ai-section">
-        <div class="ai-section-head"><span class="ai-num">2</span><h2>Objetivo de la auditoría</h2></div>
-        <p class="ai-section-note">Por qué se hace esta auditoría ahora — define qué tan a fondo debe ir el agente.</p>
+        <div class="ai-section-head"><span class="ai-num">2</span><h2>¿Por qué ahora?</h2></div>
+        <p class="ai-section-note">Dinos qué está pasando con tu marca en este momento — es lo que nos dice qué tan a fondo ir.</p>
         <div class="ai-field">
-          <label class="ai-label" for="ai-trigger">Disparador</label>
+          <label class="ai-label" for="ai-trigger">Elige lo que más se parezca a tu situación</label>
           <select class="ai-select" id="ai-trigger">
             <option value="">Selecciona una opción</option>
             <option value="Control rutinario">Control rutinario</option>
@@ -183,32 +190,32 @@
           </select>
         </div>
         <div class="ai-field">
-          <label class="ai-label" for="ai-trigger-note">Detalle breve (opcional)</label>
-          <textarea class="ai-textarea" id="ai-trigger-note" placeholder="Cualquier contexto adicional sobre el momento del negocio..."></textarea>
+          <label class="ai-label" for="ai-trigger-note">Cuéntanos más (opcional)</label>
+          <textarea class="ai-textarea" id="ai-trigger-note" placeholder="Lo que tú quieras agregar sobre el momento de tu negocio..."></textarea>
         </div>
       </div>
 
       <div class="ai-section">
-        <div class="ai-section-head"><span class="ai-num">3</span><h2>Alcance</h2></div>
+        <div class="ai-section-head"><span class="ai-num">3</span><h2>¿Dónde vive tu marca?</h2></div>
         <div class="ai-field">
-          <label class="ai-label">Canales a incluir</label>
+          <label class="ai-label">Marca los canales que quieres que revisemos</label>
           <div class="ai-chip-group" id="ai-channels">
             ${['Instagram','LinkedIn','TikTok','Web','Email'].map(c => `<button type="button" class="ai-chip" data-channel="${c}">${c}</button>`).join('')}
           </div>
         </div>
         <div class="ai-field">
-          <label class="ai-label">Competidores (3 a 5)</label>
+          <label class="ai-label">¿Quién es tu competencia? (3 a 5)</label>
           <div class="ai-comp-list" id="ai-competitors"></div>
-          <p class="ai-hint">Handles o links de Instagram de los competidores directos.</p>
+          <p class="ai-hint">Tú los conoces mejor que nadie — sus handles o links de Instagram.</p>
         </div>
       </div>
 
       <div class="ai-section">
-        <div class="ai-section-head"><span class="ai-num">4</span><h2>Voz de marca intencionada</h2></div>
-        <p class="ai-section-note">Cómo *debería* sonar la marca — el agente la contrasta contra lo que detecte en el contenido real.</p>
+        <div class="ai-section-head"><span class="ai-num">4</span><h2>¿Cómo quieres sonar?</h2></div>
+        <p class="ai-section-note">Esto es solo tuyo: nadie más sabe cómo *quieres* que suene tu marca. Lo comparamos contra cómo suena de verdad hoy.</p>
         <div class="ai-row">
           <div class="ai-field">
-            <label class="ai-label" for="ai-tone">Tono</label>
+            <label class="ai-label" for="ai-tone">Tu tono</label>
             <select class="ai-select" id="ai-tone">
               <option value="">Selecciona</option>
               <option value="Formal / corporativo">Formal / corporativo</option>
@@ -219,36 +226,36 @@
           </div>
         </div>
         <div class="ai-field">
-          <label class="ai-label" for="ai-voice-note">Notas de voz (opcional)</label>
-          <textarea class="ai-textarea" id="ai-voice-note" placeholder="Vocabulario a evitar, registro emocional deseado, ejemplos de bien/mal..."></textarea>
+          <label class="ai-label" for="ai-voice-note">¿Algo más que debamos saber? (opcional)</label>
+          <textarea class="ai-textarea" id="ai-voice-note" placeholder="Palabras que odias, ejemplos de un post que te encantó, lo que sea..."></textarea>
         </div>
       </div>
 
       <div class="ai-section">
-        <div class="ai-section-head"><span class="ai-num">5</span><h2>Acceso a datos privados</h2></div>
-        <p class="ai-section-note">Alcance, guardados e impresiones solo los ve el dueño de la cuenta — sin esto, el entregable avanzado queda incompleto.</p>
+        <div class="ai-section-head"><span class="ai-num">5</span><h2>¿Tienes los números?</h2></div>
+        <p class="ai-section-note">Alcance, guardados e impresiones solo tú los puedes ver — sin esto, nos quedamos a ciegas en la parte más importante.</p>
         <div class="ai-field">
-          <label class="ai-label">¿Tienes exports de Instagram Insights / Meta Business Suite?</label>
+          <label class="ai-label">¿Tienes acceso a Instagram Insights o Meta Business Suite?</label>
           <div class="ai-radio-row">
             <label><input type="radio" name="ai-insights" value="Sí"> Sí, los puedo pegar o adjuntar</label>
             <label><input type="radio" name="ai-insights" value="No"> No, solo lo público</label>
           </div>
         </div>
         <div class="ai-field">
-          <label class="ai-label" for="ai-data-note">Pega aquí datos clave (opcional)</label>
+          <label class="ai-label" for="ai-data-note">Pega aquí lo que tengas a mano (opcional)</label>
           <textarea class="ai-textarea" id="ai-data-note" placeholder="Alcance del mes, impresiones, guardados, seguidores vs. no seguidores..."></textarea>
         </div>
       </div>
 
       <div class="ai-section">
-        <div class="ai-section-head"><span class="ai-num">6</span><h2>Responsable y entrega</h2></div>
+        <div class="ai-section-head"><span class="ai-num">6</span><h2>Últimos detalles</h2></div>
         <div class="ai-row">
           <div class="ai-field">
-            <label class="ai-label" for="ai-owner">Responsable de ejecutar el plan</label>
-            <input class="ai-input" id="ai-owner" type="text" placeholder="Nombre" />
+            <label class="ai-label" for="ai-owner">¿Quién le va a dar seguimiento a esto?</label>
+            <input class="ai-input" id="ai-owner" type="text" placeholder="Tu nombre" />
           </div>
           <div class="ai-field">
-            <label class="ai-label" for="ai-format">Formato del entregable avanzado</label>
+            <label class="ai-label" for="ai-format">¿Cómo quieres recibir el entregable avanzado?</label>
             <select class="ai-select" id="ai-format">
               <option value="">Selecciona</option>
               <option value="Word">Word</option>
@@ -260,9 +267,9 @@
       </div>
 
       <div class="ai-footer">
-        <button type="button" class="ai-reset" id="ai-reset">Borrar y empezar de nuevo</button>
+        <button type="button" class="ai-reset" id="ai-reset">Borrar todo y empezar de nuevo</button>
         <span class="ai-save-note" id="ai-save-note"></span>
-        <button type="button" class="ai-submit" id="ai-submit">Enviar a la auditoría</button>
+        <button type="button" class="ai-submit" id="ai-submit">¡Listo, envíalo!</button>
       </div>
     </div>
   `;
